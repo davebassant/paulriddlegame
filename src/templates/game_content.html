@@ -1,0 +1,29 @@
+{% if skipped_answer %}
+    <p style="color: blue;">The answer to the skipped level was: <strong>{{ skipped_answer }}</strong></p>
+{% endif %}
+
+<h2>Level {{ player.current_level }}</h2>
+<p>{{ riddle.question }}</p>
+
+{% if correct is defined %}
+    {% if correct %}
+        <p style="color: green;">Correct! Well done.</p>
+    {% else %}
+        <p style="color: red;">Wrong answer. Try again!</p>
+    {% endif %}
+{% endif %}
+
+<form hx-post="/answer" hx-target="#game-container">
+    <input type="text" name="answer" placeholder="Your answer" required autocomplete="off">
+    <button type="submit">Check</button>
+</form>
+
+<div id="hint-container">
+    <button hx-get="/hint" hx-target="#hint-container" hx-swap="outerHTML">Get Hint</button>
+</div>
+
+<div id="skip-container" style="margin-top: 10px;">
+    <button hx-post="/skip" hx-target="#game-container" style="background-color: #6c757d;">Skip Level (No points awarded)</button>
+</div>
+
+<p>Current Score: {{ player.score }}</p>
