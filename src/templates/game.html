@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% include 'game_content.html' %}
+    {% if finished %}
+        {% include 'end_game.html' %}
+    {% else %}
+        {% include 'game_content.html' %}
+    {% endif %}
 {% endblock %}

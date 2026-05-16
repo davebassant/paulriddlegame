@@ -32,8 +32,11 @@ def join():
     
     session['player_id'] = player.id
     
+    riddle = get_riddle(player.current_level)
     if request.headers.get('HX-Request'):
-        return render_template('game_content.html', player=player, riddle=get_riddle(player.current_level))
+        if not riddle:
+            return render_template('end_game.html', score=player.score)
+        return render_template('game_content.html', player=player, riddle=riddle)
     return redirect(url_for('game'))
 
 @app.route('/game')
@@ -47,7 +50,14 @@ def game():
         return redirect(url_for('index'))
         
     riddle = get_riddle(player.current_level)
+    if not riddle:
+        return render_template('game.html', player=player, riddle=None, finished=True)
     return render_template('game.html', player=player, riddle=riddle)
+
+@app.route('/restart')
+def restart():
+    session.pop('player_id', None)
+    return redirect(url_for('index'))
 
 @app.route('/answer', methods=['POST'])
 def answer():
