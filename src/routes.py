@@ -64,7 +64,7 @@ def answer():
         
         riddle = get_riddle(player.current_level)
         if not riddle:
-            return "<h1>Congratulations! You've completed all levels!</h1>"
+            return render_template('end_game.html', score=player.score)
             
         return render_template('game_content.html', player=player, riddle=riddle, correct=True)
     else:
@@ -86,7 +86,7 @@ def skip():
     
     riddle = get_riddle(player.current_level)
     if not riddle:
-        return f"<h1>Congratulations! You've completed all levels!</h1><p>The answer to the last riddle was: <strong>{skipped_answer}</strong></p>"
+        return render_template('end_game.html', score=player.score)
         
     return render_template('game_content.html', player=player, riddle=riddle, skipped_answer=skipped_answer)
 

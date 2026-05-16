@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Welcome to the Riddle Game!</h1>
-<p>Test your wits across 20 levels of riddles.</p>
+<div style="margin-bottom: 30px;">
+    <span style="font-size: 5rem;">🧠</span>
+</div>
+<h1 style="font-size: 2.5rem; color: var(--primary-hover);">Riddle Adventure!</h1>
+<p style="font-size: 1.2rem; margin-bottom: 40px;">Can you solve all 100 riddles and become a Master Mind?</p>
 
 <div id="join-game">
     <form hx-post="/join" hx-target="#main-content">
-        <label for="player_name">Enter your name (max 12 alphanumeric):</label>
-        <input type="text" id="player_name" name="player_name" maxlength="12" pattern="[a-zA-Z0-9]+" required>
-        <button type="submit">Start Game</button>
+        <label for="player_name" style="display: block; margin-bottom: 10px; font-weight: 700;">What's your name, Adventurer?</label>
+        <input type="text" id="player_name" name="player_name" maxlength="12" pattern="[a-zA-Z0-9]+" placeholder="Enter name here..." required>
+        <button type="submit">Start My Adventure! 🚀</button>
     </form>
 </div>
 {% endblock %}

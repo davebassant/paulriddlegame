@@ -1,29 +1,42 @@
-{% if skipped_answer %}
-    <p style="color: blue;">The answer to the skipped level was: <strong>{{ skipped_answer }}</strong></p>
-{% endif %}
-
-<h2>Level {{ player.current_level }}</h2>
-<p>{{ riddle.question }}</p>
-
-{% if correct is defined %}
-    {% if correct %}
-        <p style="color: green;">Correct! Well done.</p>
-    {% else %}
-        <p style="color: red;">Wrong answer. Try again!</p>
+<div class="{% if correct is defined and not correct %}shake{% endif %}">
+    {% if skipped_answer %}
+        <p style="color: var(--primary-color); font-weight: bold;">The answer to the skipped level was: <strong>{{ skipped_answer }}</strong></p>
     {% endif %}
-{% endif %}
 
-<form hx-post="/answer" hx-target="#game-container">
-    <input type="text" name="answer" placeholder="Your answer" required autocomplete="off">
-    <button type="submit">Check</button>
-</form>
+    <h2>Level {{ player.current_level }}</h2>
+    <p style="font-size: 1.3rem; margin: 20px 0;">{{ riddle.question }}</p>
 
-<div id="hint-container">
-    <button hx-get="/hint" hx-target="#hint-container" hx-swap="outerHTML">Get Hint</button>
+    {% if correct is defined %}
+        {% if correct %}
+            <p class="correct-msg">🌟 Correct! Well done! 🌟</p>
+            <script>
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            </script>
+        {% else %}
+            <p class="wrong-msg">Oops! Wrong answer. Try again! 🤔</p>
+        {% endif %}
+    {% endif %}
+
+    <form hx-post="/answer" hx-target="#game-container" hx-swap="innerHTML">
+        <input type="text" name="answer" placeholder="Type your answer here..." required autocomplete="off" autofocus>
+        <button type="submit">Check My Answer!</button>
+    </form>
+
+    <div id="hint-container">
+        <button hx-get="/hint" hx-target="#hint-container" hx-swap="outerHTML" style="background-color: var(--hint-border); color: #856404;">
+            💡 Need a Hint?
+        </button>
+    </div>
+
+    <div id="skip-container" style="margin-top: 15px;">
+        <button hx-post="/skip" hx-target="#game-container" style="background-color: #cbd5e0; color: #4a5568; font-size: 0.9rem; padding: 10px;">
+            Skip this level
+        </button>
+    </div>
+
+    <p style="margin-top: 30px; font-weight: 900; font-size: 1.2rem;">⭐️ Score: {{ player.score }}</p>
 </div>
-
-<div id="skip-container" style="margin-top: 10px;">
-    <button hx-post="/skip" hx-target="#game-container" style="background-color: #6c757d;">Skip Level (No points awarded)</button>
-</div>
-
-<p>Current Score: {{ player.score }}</p>

@@ -1,0 +1,36 @@
+<div class="end-game">
+    <div class="star-container">⭐</div>
+    <h1 style="color: var(--primary-hover); font-size: 2.5rem;">AMAZING!</h1>
+    <p style="font-size: 1.5rem;">You've solved all the riddles!</p>
+    
+    <div style="margin: 30px 0; background: var(--bg-color); padding: 20px; border-radius: 20px;">
+        <p style="margin: 0; font-size: 1.2rem; font-weight: 700;">Final Score</p>
+        <p style="margin: 10px 0 0 0; font-size: 4rem; font-weight: 900; color: #ffcc00;">{{ score }}</p>
+    </div>
+
+    <a href="/leaderboard" class="button" style="display: block; text-decoration: none; background-color: var(--success-color); color: white; padding: 15px; border-radius: 12px; font-weight: 700;">See the Leaderboard</a>
+    <br>
+    <a href="/" style="color: var(--primary-color); font-weight: 700;">Play Again</a>
+
+    <script>
+        var duration = 5 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        var interval = setInterval(function() {
+          var timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          var particleCount = 50 * (timeLeft / duration);
+          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+    </script>
+</div>
