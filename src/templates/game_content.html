@@ -1,4 +1,4 @@
-<div class="{% if correct is defined and not correct %}shake{% endif %}">
+<div id="game-container" class="{% if correct is defined and not correct %}shake{% endif %}">
     {% if skipped_answer %}
         <p style="color: var(--primary-color); font-weight: bold;">The answer to the skipped level was: <strong>{{ skipped_answer }}</strong></p>
     {% endif %}
@@ -21,7 +21,7 @@
         {% endif %}
     {% endif %}
 
-    <form hx-post="/answer" hx-target="#game-container" hx-swap="innerHTML">
+    <form hx-post="/answer" hx-target="#game-container" hx-swap="outerHTML">
         <input type="text" name="answer" placeholder="Type your answer here..." required autocomplete="off" autofocus>
         <button type="submit">Check My Answer!</button>
     </form>
@@ -33,7 +33,7 @@
     </div>
 
     <div id="skip-container" style="margin-top: 15px;">
-        <button hx-post="/skip" hx-target="#game-container" style="background-color: #cbd5e0; color: #4a5568; font-size: 0.9rem; padding: 10px;">
+        <button hx-post="/skip" hx-target="#game-container" hx-swap="outerHTML" style="background-color: #cbd5e0; color: #4a5568; font-size: 0.9rem; padding: 10px;">
             Skip this level
         </button>
     </div>

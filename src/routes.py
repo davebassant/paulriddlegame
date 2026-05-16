@@ -1,13 +1,13 @@
 from flask import render_template, request, redirect, url_for, session, make_response
 from flask import current_app as app
 from .models import db, Player
-from .engine import get_riddle, check_answer, get_hint
+from .engine import get_riddle, check_answer, get_hint, RIDDLES
 
 @app.route('/')
 def index():
     if 'player_id' in session:
         return redirect(url_for('game'))
-    return render_template('index.html')
+    return render_template('index.html', riddle_count=len(RIDDLES))
 
 @app.route('/hint')
 def hint():
@@ -33,7 +33,7 @@ def join():
     session['player_id'] = player.id
     
     if request.headers.get('HX-Request'):
-        return render_template('game.html', player=player, riddle=get_riddle(player.current_level))
+        return render_template('game_content.html', player=player, riddle=get_riddle(player.current_level))
     return redirect(url_for('game'))
 
 @app.route('/game')
